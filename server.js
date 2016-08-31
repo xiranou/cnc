@@ -1,6 +1,7 @@
 require('dotenv').config()
 var express = require('express');
 var request = require('request');
+var async = require('async');
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -26,7 +27,7 @@ var authOptions = {
 };
 
 // get Spotify access token
-request.post(authOptions, function(error, response, body) {
+request.post(authOptions, (error, response, body) => {
   if (!error && response.statusCode === 200) {
     // use the access token to access the Spotify Web API
     accessToken = body.access_token;
@@ -34,18 +35,40 @@ request.post(authOptions, function(error, response, body) {
 });
 
 app.get('/', (req, res) => {
+  var state = {};
+  var endpoints = {
+    artist: `https://api.spotify.com/v1/artists/${seedArtistId}`,
+    related: `https://api.spotify.com/v1/artists/${seedArtistId}/related-artists`,
+    topTracks: `https://api.spotify.com/v1/artists/${seedArtistId}/top-tracks?country=US`
+  };
   var options = {
-    url: `https://api.spotify.com/v1/artists/${seedArtistId}`,
     headers: {
       'Authorization': `Bearer ${accessToken}`
     },
     json: true
   };
+  var getApiObject = (callback, requestOptions, urlKey) => {
+    Object.assign(requestOptions, { url: endpoints[urlKey] });
+    request.get(requestOptions, (err, response, body) => {
+      callback(null, body);
+    });
+  }
 
-  request.get(options, function(error, response, body) {
-    var initialState = `window.__INITIAL_STATE__ = ${ JSON.stringify(body) }`
+  async.parallel({
+    artist: (callback) => {
+      getApiObject(callback, options, 'artist');
+    },
+    related: (callback) => {
+      getApiObject(callback, options, 'related');
+    },
+    topTracks: (callback) => {
+      getApiObject(callback, options, 'topTracks');
+    }
+  }, (err, results) => {
+    var initialState = `window.__INITIAL_STATE__ = ${ JSON.stringify(results) }`
     res.render('index', { initialState });
   });
+
 });
 
 
