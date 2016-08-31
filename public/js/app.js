@@ -35,7 +35,7 @@
 
     renderRelatedBlock: function(related) {
       var relatedArtistsBlockNode = document.querySelector('.related-artists-block'),
-          relatedListNode = document.createElement('ol'),
+          relatedListNode = document.createElement('ul'),
           relatedArtists = related.artists;
 
       for (var i = 0; i < relatedArtists.length; i++) {
@@ -71,7 +71,7 @@
 
     renderTopTracksBlock: function(topTracks) {
       var topTracksBlockNode = document.querySelector('.top-tracks-block'),
-          topTracksNode = document.createElement('ol'),
+          topTracksNode = document.createElement('ul'),
           tracks = topTracks.tracks;
 
       for (var i = 0; i < tracks.length; i++) {
