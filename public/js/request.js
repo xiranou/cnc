@@ -1,4 +1,4 @@
-window.request = {
+window.request = window.request || {
   get: function(theUrl, callback) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {

@@ -2,7 +2,7 @@
   var state = window.__INITIAL_STATE__,
       request = window.request;
 
-  var App = {
+  var App = App || {
     renderArtistBlock: function(artist) {
       var artistName = artist.name,
           imgSrc = artist.images[0].url,
@@ -16,21 +16,22 @@
 
       artistNameNode.className += ' artist-full-name';
       artistNameNode.innerText = artistName;
-      artistBlockNode.appendChild(artistNameNode);
 
       imageNode.className += ' artist-image';
       imageNode.src = imgSrc;
       imageNode.alt = this._joinImgAltString(artistName, 'image');
-      artistBlockNode.appendChild(imageNode);
 
       followersNode.className += ' artist-followers';
-      followersNode.innerText = totalFollowers;
-      artistBlockNode.appendChild(followersNode);
+      followersNode.innerText = totalFollowers + ' followers';
 
       spotifyLinkNode.className += ' artist-spotify-link';
       spotifyLinkNode.target = '_blank';
       spotifyLinkNode.innerText = 'Open in Spotify';
       spotifyLinkNode.href = spotifyLink;
+
+      artistBlockNode.appendChild(imageNode);
+      artistBlockNode.appendChild(artistNameNode);
+      artistBlockNode.appendChild(followersNode);
       artistBlockNode.appendChild(spotifyLinkNode);
     },
 
@@ -44,7 +45,7 @@
           var artist = relatedArtists[i],
               artistId = artist.id,
               artistName = artist.name,
-              thumbnailSrc = artist.images[0].url,
+              thumbnailSrc = artist.images[artist.images.length-1].url,
               spotifyLink = artist.external_urls.spotify,
               relatedNode = document.createElement('li'),
               artistNode = document.createElement('a'),
@@ -68,7 +69,6 @@
 
           artistNode.className += ' related-artist-link';
           artistNode.href = '/artist/' + artistId;
-          artistNode.style.display = 'block';
           artistNode.appendChild(thumbnailNode);
           artistNode.appendChild(nameNode);
           artistNode.addEventListener('click', this._switchArtist.bind(this));
@@ -135,17 +135,29 @@
       return artistName.replace(/\s/g, '-').toLowerCase() + '-' + altName;
     },
 
-    _switchArtist(event) {
+    _switchArtist: function(event) {
       event.preventDefault();
       var target = this._findTargetAnchor(event);
       request.get(target.href, function(response) {
-        var state = JSON.parse(response);
-        console.log(state);
-      });
+        state = JSON.parse(response);
+        this._resetParentNodes();
+        window.scrollTo(0, 0);
+        this.render(state);
+      }.bind(this));
     },
 
-    _findTargetAnchor(event) {
+    _findTargetAnchor: function(event) {
       return event.target.nodeName === 'A' ? event.target : event.target.parentElement;
+    },
+
+    _resetParentNodes: function() {
+      var parentBlockNodes = document.querySelectorAll('.parent-block');
+      for (var i = 0; i < parentBlockNodes.length; i++) {
+        var parentNode = parentBlockNodes[i];
+        while(parentNode.firstChild) {
+          parentNode.removeChild(parentNode.firstChild);
+        }
+      }
     }
   }
 
