@@ -39,41 +39,50 @@
           relatedListNode = document.createElement('ul'),
           relatedArtists = related.artists;
 
-      for (var i = 0; i < relatedArtists.length; i++) {
-        var artist = relatedArtists[i],
-            artistId = artist.id,
-            artistName = artist.name,
-            thumbnailSrc = artist.images[2].url,
-            spotifyLink = artist.external_urls.spotify,
-            relatedNode = document.createElement('li'),
-            artistNode = document.createElement('a'),
-            nameNode = document.createElement('span'),
-            thumbnailNode = document.createElement('img'),
-            spotifyLinkNode = document.createElement('a');
+      if ( relatedArtists.length > 0 ) {
+        for (var i = 0; i < relatedArtists.length; i++) {
+          var artist = relatedArtists[i],
+              artistId = artist.id,
+              artistName = artist.name,
+              thumbnailSrc = artist.images[0].url,
+              spotifyLink = artist.external_urls.spotify,
+              relatedNode = document.createElement('li'),
+              artistNode = document.createElement('a'),
+              nameNode = document.createElement('span'),
+              thumbnailNode = document.createElement('img'),
+              spotifyLinkNode = document.createElement('a');
 
-        relatedNode.className += ' related-artist';
+          relatedNode.className += ' related-artist';
 
-        nameNode.className += ' related-artist-name';
-        nameNode.innerText = artistName;
+          nameNode.className += ' related-artist-name';
+          nameNode.innerText = artistName;
 
-        thumbnailNode.className += ' related-artist-thumbnail';
-        thumbnailNode.alt = this._joinImgAltString(artistName, 'thumbnail');
-        thumbnailNode.src = thumbnailSrc;
+          thumbnailNode.className += ' related-artist-thumbnail';
+          thumbnailNode.alt = this._joinImgAltString(artistName, 'thumbnail');
+          thumbnailNode.src = thumbnailSrc;
 
-        spotifyLinkNode.className += ' artist-spotify-link';
-        spotifyLinkNode.target = '_blank';
-        spotifyLinkNode.innerText = 'Open in Spotify';
-        spotifyLinkNode.href = spotifyLink;
+          spotifyLinkNode.className += ' artist-spotify-link';
+          spotifyLinkNode.target = '_blank';
+          spotifyLinkNode.innerText = 'Open in Spotify';
+          spotifyLinkNode.href = spotifyLink;
 
-        artistNode.className += ' related-artist-link';
-        artistNode.href = '/artist/' + artistId;
-        artistNode.style.display = 'block';
-        artistNode.appendChild(thumbnailNode);
-        artistNode.appendChild(nameNode);
-        artistNode.addEventListener('click', this._switchArtist.bind(this));
+          artistNode.className += ' related-artist-link';
+          artistNode.href = '/artist/' + artistId;
+          artistNode.style.display = 'block';
+          artistNode.appendChild(thumbnailNode);
+          artistNode.appendChild(nameNode);
+          artistNode.addEventListener('click', this._switchArtist.bind(this));
 
-        relatedNode.appendChild(artistNode);
-        relatedNode.appendChild(spotifyLinkNode);
+          relatedNode.appendChild(artistNode);
+          relatedNode.appendChild(spotifyLinkNode);
+          relatedListNode.appendChild(relatedNode);
+        }
+      } else {
+        var relatedNode = document.createElement('li'),
+            messageNode = document.createElement('span');
+
+        messageNode.innerText = 'Sorry, no related artists found.';
+        relatedNode.appendChild(messageNode);
         relatedListNode.appendChild(relatedNode);
       }
 
