@@ -80,15 +80,21 @@
             previewUrl = track.preview_url,
             trackNode = document.createElement('li'),
             trackNameNode = document.createElement('span'),
-            trackPreviewNode = document.createElement('a');
+            previewNode = document.createElement('audio'),
+            srcNode = document.createElement('source');
 
         trackNameNode.className += ' track-name';
         trackNameNode.innerText = trackName;
 
-        trackPreviewNode.href = previewUrl;
+        srcNode.className += ' preview-source';
+        srcNode.type = 'audio/mpeg';
+        srcNode.src = previewUrl;
 
-        trackPreviewNode.appendChild(trackNameNode);
-        trackNode.appendChild(trackPreviewNode);
+        previewNode.setAttribute('controls', true);
+        previewNode.appendChild(srcNode);
+
+        trackNode.appendChild(trackNameNode);
+        trackNode.appendChild(previewNode);
         topTracksNode.appendChild(trackNode);
       }
 
