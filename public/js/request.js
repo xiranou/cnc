@@ -1,6 +1,5 @@
-(function() {
-
-  function get(theUrl, callback) {
+window.request = {
+  get: function(theUrl, callback) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
@@ -9,5 +8,4 @@
     xmlHttp.open("GET", theUrl, true); // true for asynchronous
     xmlHttp.send(null);
   }
-  console.log(window.__INITIAL_STATE__);
-})()
+}
