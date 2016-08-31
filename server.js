@@ -80,3 +80,9 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`App listening on port ${port}!`);
 });
+
+app.get('/artist/:id', (req, res) => {
+  getArtistData(req.params.id, (results) => {
+    res.send(JSON.stringify(results));
+  });
+})

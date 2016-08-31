@@ -1,5 +1,6 @@
 (function() {
-  var state = window.__INITIAL_STATE__;
+  var state = window.__INITIAL_STATE__,
+      request = window.request;
 
   var App = {
     renderArtistBlock: function(artist) {
@@ -40,13 +41,17 @@
 
       for (var i = 0; i < relatedArtists.length; i++) {
         var artist = relatedArtists[i],
+            artistId = artist.id,
             artistName = artist.name,
             thumbnailSrc = artist.images[2].url,
             spotifyLink = artist.external_urls.spotify,
-            artistNode = document.createElement('li'),
+            relatedNode = document.createElement('li'),
+            artistNode = document.createElement('a'),
             nameNode = document.createElement('span'),
             thumbnailNode = document.createElement('img'),
             spotifyLinkNode = document.createElement('a');
+
+        relatedNode.className += ' related-artist';
 
         nameNode.className += ' related-artist-name';
         nameNode.innerText = artistName;
@@ -60,10 +65,16 @@
         spotifyLinkNode.innerText = 'Open in Spotify';
         spotifyLinkNode.href = spotifyLink;
 
-        artistNode.appendChild(nameNode);
+        artistNode.className += ' related-artist-link';
+        artistNode.href = '/artist/' + artistId;
+        artistNode.style.display = 'block';
         artistNode.appendChild(thumbnailNode);
-        artistNode.appendChild(spotifyLinkNode);
-        relatedListNode.appendChild(artistNode);
+        artistNode.appendChild(nameNode);
+        artistNode.addEventListener('click', this._switchArtist.bind(this));
+
+        relatedNode.appendChild(artistNode);
+        relatedNode.appendChild(spotifyLinkNode);
+        relatedListNode.appendChild(relatedNode);
       }
 
       relatedArtistsBlockNode.appendChild(relatedListNode);
@@ -112,7 +123,20 @@
     },
 
     _joinImgAltString: function(artistName, altName) {
-      return artistName.replace(/\s/g, '-').toLowerCase + '-' + altName;
+      return artistName.replace(/\s/g, '-').toLowerCase() + '-' + altName;
+    },
+
+    _switchArtist(event) {
+      event.preventDefault();
+      var target = this._findTargetAnchor(event);
+      request.get(target.href, function(response) {
+        var state = JSON.parse(response);
+        console.log(state);
+      });
+    },
+
+    _findTargetAnchor(event) {
+      return event.target.nodeName === 'A' ? event.target : event.target.parentElement;
     }
   }
 
