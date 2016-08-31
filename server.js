@@ -34,12 +34,12 @@ request.post(authOptions, (error, response, body) => {
   }
 });
 
-app.get('/', (req, res) => {
+var getArtistData = (artistId, callback) => {
   var state = {};
   var endpoints = {
-    artist: `https://api.spotify.com/v1/artists/${seedArtistId}`,
-    related: `https://api.spotify.com/v1/artists/${seedArtistId}/related-artists`,
-    topTracks: `https://api.spotify.com/v1/artists/${seedArtistId}/top-tracks?country=US`
+    artist: `https://api.spotify.com/v1/artists/${artistId}`,
+    related: `https://api.spotify.com/v1/artists/${artistId}/related-artists`,
+    topTracks: `https://api.spotify.com/v1/artists/${artistId}/top-tracks?country=US`
   };
   var options = {
     headers: {
@@ -47,28 +47,33 @@ app.get('/', (req, res) => {
     },
     json: true
   };
-  var getApiObject = (callback, requestOptions, urlKey) => {
+  var _getApiObject = (requestOptions, urlKey, parallelCallback) => {
     Object.assign(requestOptions, { url: endpoints[urlKey] });
     request.get(requestOptions, (err, response, body) => {
-      callback(null, body);
+      parallelCallback(null, body);
     });
   }
 
   async.parallel({
-    artist: (callback) => {
-      getApiObject(callback, options, 'artist');
+    artist: (parallelCallback) => {
+      _getApiObject(options, 'artist', parallelCallback);
     },
-    related: (callback) => {
-      getApiObject(callback, options, 'related');
+    related: (parallelCallback) => {
+      _getApiObject(options, 'related', parallelCallback);
     },
-    topTracks: (callback) => {
-      getApiObject(callback, options, 'topTracks');
+    topTracks: (parallelCallback) => {
+      _getApiObject(options, 'topTracks', parallelCallback);
     }
   }, (err, results) => {
+    callback(results);
+  });
+}
+
+app.get('/', (req, res) => {
+  getArtistData(seedArtistId, (results) => {
     var initialState = `window.__INITIAL_STATE__ = ${ JSON.stringify(results) }`
     res.render('index', { initialState });
   });
-
 });
 
 
