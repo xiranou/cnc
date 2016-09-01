@@ -47,7 +47,7 @@
           var artist = relatedArtists[i],
               artistId = artist.id,
               artistName = artist.name,
-              thumbnailSrc = artist.images[artist.images.length-1].url,
+              thumbnailSrc = artist.images[0].url,
               relatedNode = this._createElement('li'),
               nameNode = this._createElement('span'),
               thumbnailNode = this._createElement('img'),
