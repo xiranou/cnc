@@ -94,6 +94,8 @@
           topTracksNode = document.createElement('ul'),
           tracks = topTracks.tracks;
 
+      topTracksNode.className += ' top-tracks-list';
+
       for (var i = 0; i < tracks.length; i++) {
         var track = tracks[i],
             trackName = track.name,
@@ -110,6 +112,7 @@
         srcNode.type = 'audio/mpeg';
         srcNode.src = previewUrl;
 
+        previewNode.className += ' preview-audio';
         previewNode.setAttribute('controls', true);
         previewNode.appendChild(srcNode);
 

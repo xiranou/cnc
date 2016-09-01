@@ -1,12 +1,18 @@
 html, body {
   width: 100%;
+  background-color: #1c1c1f;
 }
 
+.parent-block {
+  height: 500px;
+}
+
+/* Artist Block */
 .artist-block {
   display: inline-block;
-  background-color: #1c1c1f;
   padding: 20px;
   vertical-align: top;
+  overflow: hidden;
 }
 
 .artist-image {
@@ -21,7 +27,7 @@ html, body {
   display: block;
   width: 100%;
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.5em;
+  font-size: 2em;
   color: #88898c;
   margin: 10px;
 }
@@ -39,7 +45,45 @@ html, body {
   font-size: 0.85em;
   color: #fff;
   padding: 10px;
-  background: #070;
+  background-color: #008000;
   border-radius: 50%;
   text-decoration: none;
+}
+/* end Artist Block */
+/* Top Tracks BLock */
+.top-tracks-block {
+  display: inline-block;
+  margin: 0 20px;
+  vertical-align: top;
+  overflow: scroll;
+}
+
+.top-tracks-label {
+  margin-top: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5em;
+  color: #fff;
+}
+
+.top-tracks-list {
+  margin: 10px 0;
+}
+
+.top-tracks-list li {
+  overflow: hidden;
+  margin: 25px 0;
+}
+
+.track-name {
+  float: left;
+  margin-right: 20px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 1em;
+  color: #fff;
+}
+
+.preview-audio {
+  float: right;
+  background-color: #008000;
+  border: 0px none transparent;
 }
