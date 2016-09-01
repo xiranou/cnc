@@ -15,7 +15,7 @@ html, body {
 
 .parent-block {
   display: inline-block;
-  height: 600px;
+  height: 100%;
 }
 
 .parent-block * {
@@ -121,8 +121,8 @@ html, body {
 
 .related-artists-list {
   text-align: center;
-  height: calc(100% - 50px);
-  overflow: scroll;
+  height: 600px;
+  overflow-y: scroll;
 }
 
 .related-artist {
@@ -156,7 +156,6 @@ html, body {
 
 @media only screen and (min-width: 319px) and (max-width: 736px) {
   .parent-block {
-    height: 100%;
     width: 100%;
   }
 
