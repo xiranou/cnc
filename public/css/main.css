@@ -4,12 +4,19 @@ html, body {
 }
 
 .parent-block {
-  height: 500px;
+  display: inline-block;
+  height: 600px;
+}
+
+.block-label {
+  margin-top: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5em;
+  color: #fff;
 }
 
 /* Artist Block */
 .artist-block {
-  display: inline-block;
   padding: 20px;
   vertical-align: top;
   overflow: hidden;
@@ -50,19 +57,12 @@ html, body {
   text-decoration: none;
 }
 /* end Artist Block */
+
 /* Top Tracks BLock */
 .top-tracks-block {
-  display: inline-block;
   margin: 0 20px;
   vertical-align: top;
-  overflow: scroll;
-}
-
-.top-tracks-label {
-  margin-top: 20px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.5em;
-  color: #fff;
+  overflow: hidden;
 }
 
 .top-tracks-list {
@@ -76,6 +76,10 @@ html, body {
 
 .track-name {
   float: left;
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-right: 20px;
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 1em;
@@ -86,4 +90,26 @@ html, body {
   float: right;
   background-color: #008000;
   border: 0px none transparent;
+}
+/*end Top Tracks Block*/
+
+/*Related Block*/
+.related-artists-block {
+  overflow: scroll;
+}
+
+.related-artist {
+  margin: 30px 0;
+}
+
+.related-artist-link {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.related-artist-thumbnail {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
 }
