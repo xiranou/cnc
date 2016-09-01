@@ -171,6 +171,16 @@ body {
     text-align: center;
   }
 
+  .artist-block {
+    padding: 0;
+  }
+
+  .artist-image {
+    width: 100%;
+    height: auto;
+    box-shadow: none;
+  }
+
   .artist-full-name {
     margin: 10px 0;
     text-align: center;
@@ -181,13 +191,8 @@ body {
     text-align: center;
   }
 
-  .artist-image {
-    width: 100%;
-    height: auto;
-  }
-
-  .related-artists-list {
-    height: 100%;
+  .top-tracks-block {
+    margin: 0;
   }
 
   .track-name, .preview-audio {
@@ -196,4 +201,9 @@ body {
     float: none;
     margin: 10px 0;
   }
+
+  .related-artists-list {
+    height: 100%;
+  }
+
 }
