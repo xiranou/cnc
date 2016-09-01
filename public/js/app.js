@@ -40,6 +40,8 @@
           relatedListNode = document.createElement('ul'),
           relatedArtists = related.artists;
 
+      relatedListNode.className += ' related-artists-list';
+
       if ( relatedArtists.length > 0 ) {
         for (var i = 0; i < relatedArtists.length; i++) {
           var artist = relatedArtists[i],
