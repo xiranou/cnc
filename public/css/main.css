@@ -131,17 +131,19 @@ html, body {
   text-decoration: none;
 }
 
-.related-artist-name {
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 0.85em;
-  color: #fff;
-}
-
 .related-artist-thumbnail {
   display: block;
   width: 100px;
   height: 100px;
-  margin-bottom: 10px;
+  margin: 10px auto;
+}
+
+.related-artist-name {
+  display: block;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 0.85em;
+  color: #fff;
+  margin: 10px auto;
 }
 
 .see-artist {
@@ -181,9 +183,5 @@ html, body {
     width: 100%;
     float: none;
     margin: 10px 0;
-  }
-
-  .related-artist-thumbnail {
-    margin: 10px auto;
   }
 }

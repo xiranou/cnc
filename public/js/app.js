@@ -135,17 +135,13 @@
 
     _switchArtist: function(event) {
       event.preventDefault();
-      var target = this._findTargetAnchor(event);
-      request.get(target.href, function(response) {
+
+      request.get(event.target.href, function(response) {
         state = JSON.parse(response);
         this._resetParentNodes();
         window.scrollTo(0, 0);
         this.render(state);
       }.bind(this));
-    },
-
-    _findTargetAnchor: function(event) {
-      return event.target.nodeName === 'A' ? event.target : event.target.parentElement;
     },
 
     _createElement: function(nodeType) {
