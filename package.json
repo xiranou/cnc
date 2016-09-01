@@ -9,6 +9,9 @@
   },
   "author": "Xiran Ou",
   "license": "ISC",
+  "engines": {
+    "node": "6.5.0"
+  },
   "dependencies": {
     "async": "^2.0.1",
     "dotenv": "^2.0.0",
