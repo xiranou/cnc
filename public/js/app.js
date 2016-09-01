@@ -97,22 +97,20 @@
             previewUrl = track.preview_url,
             trackNode = this._createElement('li'),
             trackNameNode = this._createElement('span'),
-            previewNode = this._createElement('audio'),
-            srcNode = this._createElement('source');
+            playButtonNode = this._createElement('a');
 
         trackNameNode.className += ' track-name';
         trackNameNode.innerText = trackName;
 
-        srcNode.className += ' preview-source';
-        srcNode.type = 'audio/mpeg';
-        srcNode.src = previewUrl;
+        playButtonNode.className += ' rect-button play-preview';
+        playButtonNode.innerText = 'Play';
+        playButtonNode.href = previewUrl;
 
-        previewNode.className += ' preview-audio';
-        previewNode.setAttribute('controls', true);
-        previewNode.appendChild(srcNode);
+
+        playButtonNode.addEventListener('click', this._appendPreviewIframe.bind(this));
 
         trackNode.appendChild(trackNameNode);
-        trackNode.appendChild(previewNode);
+        trackNode.appendChild(playButtonNode);
         topTracksNode.appendChild(trackNode);
       }
 
@@ -144,6 +142,38 @@
       }.bind(this));
     },
 
+    _appendPreviewIframe: function(event) {
+      event.preventDefault();
+      var target = event.target,
+          previewIframes = Array.prototype.slice.call(document.querySelectorAll('.song-preview'), 0);
+
+      for (var i = 0; i < previewIframes.length; i++) {
+        var preview = previewIframes[i];
+
+        // reset play button text
+        preview.previousSibling.innerText = 'Play';
+        preview.parentNode.removeChild(preview);
+      }
+
+      if (target.dataset.hidePreview) {
+        target.innerText = 'Play';
+        target.removeAttribute('data-hide-preview');
+      } else {
+        var iframe = this._createElement('iframe');
+
+        target.innerText = 'Hide';
+        target.dataset.hidePreview = true;
+
+        iframe.className += ' song-preview';
+        iframe.src = target.href;
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('type', 'audio/mpeg');
+
+        target.parentNode.appendChild(iframe);
+      }
+
+    },
+
     _createElement: function(nodeType) {
       var node = document.createElement(nodeType);
 
@@ -155,7 +185,7 @@
       var parentBlockNodes = document.querySelectorAll('.parent-block');
       for (var i = 0; i < parentBlockNodes.length; i++) {
         var parentNode = parentBlockNodes[i],
-            childNodes = Array.prototype.slice.call( parentNode.children, 0 ); // turn collection into array
+            childNodes = Array.prototype.slice.call(parentNode.children, 0); // turn collection into array
 
         for (var j = 0; j < childNodes.length; j++) {
           var child = childNodes[j];

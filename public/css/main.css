@@ -76,6 +76,7 @@ html, body {
 
 /* Top Tracks BLock */
 .top-tracks-block {
+  width: 36vw;
   margin: 0 20px;
   vertical-align: top;
   overflow: hidden;
@@ -88,10 +89,10 @@ html, body {
 .top-tracks-list li {
   overflow: hidden;
   margin: 25px 0;
+  text-align: center;
 }
 
 .track-name {
-  float: left;
   width: 200px;
   white-space: nowrap;
   overflow: hidden;
@@ -102,10 +103,13 @@ html, body {
   color: #fff;
 }
 
-.preview-audio {
-  float: right;
-  background-color: #008000;
-  border: 0px none transparent;
+.play-preview {
+  background-color: #880c88;
+}
+
+.song-preview {
+  display: block;
+  margin: 0 auto;
 }
 
 /*Related Block*/
