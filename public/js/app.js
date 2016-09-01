@@ -5,7 +5,7 @@
   var App = App || {
     renderArtistBlock: function(artist) {
       var artistName = artist.name,
-          imgSrc = artist.images[0].url,
+          imgSrc = this._getImageUrl(artist.images),
           totalFollowers = artist.followers.total,
           spotifyLink = artist.external_urls.spotify,
           artistBlockNode = document.querySelector('.artist-block'),
@@ -47,7 +47,7 @@
           var artist = relatedArtists[i],
               artistId = artist.id,
               artistName = artist.name,
-              thumbnailSrc = artist.images[0].url,
+              thumbnailSrc = this._getImageUrl(artist.images),
               relatedNode = this._createElement('li'),
               nameNode = this._createElement('span'),
               thumbnailNode = this._createElement('img'),
@@ -196,6 +196,10 @@
       messageNode.innerText = message;
 
       return messageNode;
+    },
+
+    _getImageUrl: function(images) {
+      return images.length > 1 ? images[0].url : '/images/default.png';
     },
 
     _resetParentNodes: function() {
