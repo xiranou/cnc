@@ -24,7 +24,7 @@
       followersNode.className += ' artist-followers';
       followersNode.innerText = totalFollowers + ' followers';
 
-      spotifyLinkNode.className += ' artist-spotify-link';
+      spotifyLinkNode.className += ' rect-button spotify-link';
       spotifyLinkNode.target = '_blank';
       spotifyLinkNode.innerText = 'Open in Spotify';
       spotifyLinkNode.href = spotifyLink;
@@ -48,12 +48,10 @@
               artistId = artist.id,
               artistName = artist.name,
               thumbnailSrc = artist.images[artist.images.length-1].url,
-              spotifyLink = artist.external_urls.spotify,
               relatedNode = this._createElement('li'),
-              artistNode = this._createElement('a'),
               nameNode = this._createElement('span'),
               thumbnailNode = this._createElement('img'),
-              spotifyLinkNode = this._createElement('a');
+              seeButtonNode = this._createElement('a');
 
           relatedNode.className += ' related-artist';
 
@@ -64,19 +62,14 @@
           thumbnailNode.alt = this._joinImgAltString(artistName, 'thumbnail');
           thumbnailNode.src = thumbnailSrc;
 
-          spotifyLinkNode.className += ' artist-spotify-link';
-          spotifyLinkNode.target = '_blank';
-          spotifyLinkNode.innerText = 'Open in Spotify';
-          spotifyLinkNode.href = spotifyLink;
+          seeButtonNode.className += ' rect-button see-artist';
+          seeButtonNode.innerText = 'See Artist';
+          seeButtonNode.href = '/artist/' + artistId
+          seeButtonNode.addEventListener('click', this._switchArtist.bind(this));
 
-          artistNode.className += ' related-artist-link';
-          artistNode.href = '/artist/' + artistId;
-          artistNode.appendChild(thumbnailNode);
-          artistNode.appendChild(nameNode);
-          artistNode.addEventListener('click', this._switchArtist.bind(this));
-
-          relatedNode.appendChild(artistNode);
-          relatedNode.appendChild(spotifyLinkNode);
+          relatedNode.appendChild(thumbnailNode);
+          relatedNode.appendChild(nameNode);
+          relatedNode.appendChild(seeButtonNode);
           relatedListNode.appendChild(relatedNode);
         }
       } else {
