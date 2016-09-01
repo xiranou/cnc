@@ -39,6 +39,13 @@ html, body {
   text-decoration: none;
 }
 
+.no-found-message {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 0.85em;
+  color: #fff;
+  margin: 10px auto;
+}
+
 /* Artist Block */
 .artist-block {
   padding: 20px;

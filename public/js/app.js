@@ -74,9 +74,8 @@
         }
       } else {
         var relatedNode = this._createElement('li'),
-            messageNode = this._createElement('span');
+            messageNode = this._createMessageNode('Sorry, no related artists found.', 'no-found-message');
 
-        messageNode.innerText = 'Sorry, no related artists found.';
         relatedNode.appendChild(messageNode);
         relatedListNode.appendChild(relatedNode);
       }
@@ -91,26 +90,34 @@
 
       topTracksNode.className += ' top-tracks-list';
 
-      for (var i = 0; i < tracks.length; i++) {
-        var track = tracks[i],
-            trackName = track.name,
-            previewUrl = track.preview_url,
-            trackNode = this._createElement('li'),
-            trackNameNode = this._createElement('span'),
-            playButtonNode = this._createElement('a');
+      if (tracks.length > 1) {
+        for (var i = 0; i < tracks.length; i++) {
+          var track = tracks[i],
+              trackName = track.name,
+              previewUrl = track.preview_url,
+              trackNode = this._createElement('li'),
+              trackNameNode = this._createElement('span'),
+              playButtonNode = this._createElement('a');
 
-        trackNameNode.className += ' track-name';
-        trackNameNode.innerText = trackName;
+          trackNameNode.className += ' track-name';
+          trackNameNode.innerText = trackName;
 
-        playButtonNode.className += ' rect-button play-preview';
-        playButtonNode.innerText = 'Play';
-        playButtonNode.href = previewUrl;
+          playButtonNode.className += ' rect-button play-preview';
+          playButtonNode.innerText = 'Play';
+          playButtonNode.href = previewUrl;
 
 
-        playButtonNode.addEventListener('click', this._appendPreviewIframe.bind(this));
+          playButtonNode.addEventListener('click', this._appendPreviewIframe.bind(this));
 
-        trackNode.appendChild(trackNameNode);
-        trackNode.appendChild(playButtonNode);
+          trackNode.appendChild(trackNameNode);
+          trackNode.appendChild(playButtonNode);
+          topTracksNode.appendChild(trackNode);
+        }
+      } else {
+        var trackNode = this._createElement('li'),
+            messageNode = this._createMessageNode('Sorry, no related tracks found.', 'no-found-message');
+
+        trackNode.appendChild(messageNode);
         topTracksNode.appendChild(trackNode);
       }
 
@@ -179,6 +186,16 @@
 
       node.dataset.dynamic = true;
       return node;
+    },
+
+    _createMessageNode: function(message, classes) {
+      var messageNode = this._createElement('p'),
+          className = ' ' + classes;
+
+      messageNode.className += className;
+      messageNode.innerText = message;
+
+      return messageNode;
     },
 
     _resetParentNodes: function() {
