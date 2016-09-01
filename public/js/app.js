@@ -9,10 +9,10 @@
           totalFollowers = artist.followers.total,
           spotifyLink = artist.external_urls.spotify,
           artistBlockNode = document.querySelector('.artist-block'),
-          artistNameNode = document.createElement('h2'),
-          imageNode = document.createElement('img'),
-          followersNode = document.createElement('span'),
-          spotifyLinkNode = document.createElement('a')
+          artistNameNode = this._createElement('h2'),
+          imageNode = this._createElement('img'),
+          followersNode = this._createElement('span'),
+          spotifyLinkNode = this._createElement('a')
 
       artistNameNode.className += ' artist-full-name';
       artistNameNode.innerText = artistName;
@@ -37,7 +37,7 @@
 
     renderRelatedBlock: function(related) {
       var relatedArtistsBlockNode = document.querySelector('.related-artists-block'),
-          relatedListNode = document.createElement('ul'),
+          relatedListNode = this._createElement('ul'),
           relatedArtists = related.artists;
 
       relatedListNode.className += ' related-artists-list';
@@ -49,11 +49,11 @@
               artistName = artist.name,
               thumbnailSrc = artist.images[artist.images.length-1].url,
               spotifyLink = artist.external_urls.spotify,
-              relatedNode = document.createElement('li'),
-              artistNode = document.createElement('a'),
-              nameNode = document.createElement('span'),
-              thumbnailNode = document.createElement('img'),
-              spotifyLinkNode = document.createElement('a');
+              relatedNode = this._createElement('li'),
+              artistNode = this._createElement('a'),
+              nameNode = this._createElement('span'),
+              thumbnailNode = this._createElement('img'),
+              spotifyLinkNode = this._createElement('a');
 
           relatedNode.className += ' related-artist';
 
@@ -80,8 +80,8 @@
           relatedListNode.appendChild(relatedNode);
         }
       } else {
-        var relatedNode = document.createElement('li'),
-            messageNode = document.createElement('span');
+        var relatedNode = this._createElement('li'),
+            messageNode = this._createElement('span');
 
         messageNode.innerText = 'Sorry, no related artists found.';
         relatedNode.appendChild(messageNode);
@@ -93,7 +93,7 @@
 
     renderTopTracksBlock: function(topTracks) {
       var topTracksBlockNode = document.querySelector('.top-tracks-block'),
-          topTracksNode = document.createElement('ul'),
+          topTracksNode = this._createElement('ul'),
           tracks = topTracks.tracks;
 
       topTracksNode.className += ' top-tracks-list';
@@ -102,10 +102,10 @@
         var track = tracks[i],
             trackName = track.name,
             previewUrl = track.preview_url,
-            trackNode = document.createElement('li'),
-            trackNameNode = document.createElement('span'),
-            previewNode = document.createElement('audio'),
-            srcNode = document.createElement('source');
+            trackNode = this._createElement('li'),
+            trackNameNode = this._createElement('span'),
+            previewNode = this._createElement('audio'),
+            srcNode = this._createElement('source');
 
         trackNameNode.className += ' track-name';
         trackNameNode.innerText = trackName;
@@ -146,7 +146,6 @@
       request.get(target.href, function(response) {
         state = JSON.parse(response);
         this._resetParentNodes();
-        window.scrollTo(0, 0);
         this.render(state);
       }.bind(this));
     },
@@ -155,12 +154,22 @@
       return event.target.nodeName === 'A' ? event.target : event.target.parentElement;
     },
 
+    _createElement: function(nodeType) {
+      var node = document.createElement(nodeType);
+
+      node.dataset.dynamic = true;
+      return node;
+    },
+
     _resetParentNodes: function() {
       var parentBlockNodes = document.querySelectorAll('.parent-block');
       for (var i = 0; i < parentBlockNodes.length; i++) {
-        var parentNode = parentBlockNodes[i];
-        while(parentNode.firstChild) {
-          parentNode.removeChild(parentNode.firstChild);
+        var parentNode = parentBlockNodes[i],
+            childNodes = Array.prototype.slice.call( parentNode.children, 0 ); // turn collection into array
+
+        for (var j = 0; j < childNodes.length; j++) {
+          var child = childNodes[j];
+          if (child.dataset.dynamic) { parentNode.removeChild(child); }
         }
       }
     }
