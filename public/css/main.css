@@ -1,5 +1,4 @@
-html, body {
-  width: 100%;
+body {
   background-color: #1c1c1f;
 }
 
@@ -123,7 +122,6 @@ html, body {
 .related-artists-block {
   width: 28vw;
   overflow: hidden;
-  text-align: center;
 }
 
 .related-artists-list {
@@ -186,6 +184,10 @@ html, body {
   .artist-image {
     width: 100%;
     height: auto;
+  }
+
+  .related-artists-list {
+    height: 100%;
   }
 
   .track-name, .preview-audio {
