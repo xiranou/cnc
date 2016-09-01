@@ -3,9 +3,23 @@ html, body {
   background-color: #1c1c1f;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .parent-block {
   display: inline-block;
   height: 600px;
+}
+
+.parent-block * {
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .block-label {
@@ -54,10 +68,8 @@ html, body {
   color: #fff;
   padding: 10px;
   background-color: #008000;
-  border-radius: 50%;
   text-decoration: none;
 }
-/* end Artist Block */
 
 /* Top Tracks BLock */
 .top-tracks-block {
@@ -92,7 +104,6 @@ html, body {
   background-color: #008000;
   border: 0px none transparent;
 }
-/*end Top Tracks Block*/
 
 /*Related Block*/
 .related-artists-block {
@@ -114,6 +125,13 @@ html, body {
 .related-artist-link {
   display: inline-block;
   vertical-align: middle;
+  text-decoration: none;
+}
+
+.related-artist-name {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 0.85em;
+  color: #fff;
 }
 
 .related-artist-thumbnail {
@@ -121,4 +139,40 @@ html, body {
   width: 100px;
   height: 100px;
   margin-bottom: 10px;
+}
+
+@media only screen and (min-width: 319px) and (max-width: 736px) {
+  .parent-block {
+    height: 100%;
+    width: 100%;
+  }
+
+  .artist-full-name {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .artist-followers {
+    display: block;
+    text-align: center;
+  }
+
+  .artist-image {
+    width: 100%;
+    height: auto;
+  }
+
+  .artist-spotify-link {
+    display: block;
+    margin: 10px auto;
+    width: 100px;
+    text-align: center;
+  }
+
+  .track-name, .preview-audio {
+    display: block;
+    width: 100%;
+    float: none;
+    margin: 10px 0;
+  }
 }

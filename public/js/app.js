@@ -146,6 +146,7 @@
       request.get(target.href, function(response) {
         state = JSON.parse(response);
         this._resetParentNodes();
+        window.scrollTo(0, 0);
         this.render(state);
       }.bind(this));
     },
